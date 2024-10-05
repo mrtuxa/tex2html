@@ -67,7 +67,10 @@ def title_search(head_content):
 
 head_content = extract_head("example") # for head stuff
 
-if title_search(head_content):
-    print(f"Title is {title_search(head_content)}")
+def writeHead():
+    testFile.write("<head>\n")
+    if title_search(head_content):
+        testFile.write(f"<title>{title_search(head_content)}</title>\n")
+    testFile.write("</head>")
 
-#print("did things")
+writeHead()
