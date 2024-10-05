@@ -1,4 +1,5 @@
 import re
+from bs4 import BeautifulSoup
 
 true = True
 
@@ -113,7 +114,7 @@ template = f"""
 """
 
 for body, tag in zip(get_body(), get_tag()):
-    template += f"<{tag}>{body}</{tag}>"
+    template += f"<{tag}>{body}</{tag}>\n"
 
 template += """
         </body>
@@ -129,8 +130,8 @@ def writeHead():
 
 
 def writeFile():
-    with open('testFile.txt', 'w') as testFile:
-        testFile.write(template)
+    with open('test.html', 'w') as testFile:
+        testFile.write(BeautifulSoup(template, 'html.parser').prettify())
     print("successfully")
 
 
