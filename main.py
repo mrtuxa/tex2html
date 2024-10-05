@@ -11,7 +11,6 @@ def getExampleFile(file):
     return open(f'{getExampleDir()}/{file}.tex', 'r')
 
 
-
 def extract_content(file):
     with getExampleFile(f'{file}') as f:
         latex_code = f.read()
@@ -26,6 +25,7 @@ def extract_content(file):
         else:
             "head cum cum >~<"
 
+
 def extract_head(file):
     with getExampleFile(f'{file}') as f:
         latex_code = f.read()
@@ -34,6 +34,17 @@ def extract_head(file):
         if match:
             head_content = match.group(1)
             return head_content.strip()
+        else:
+            return None
+
+
+def extract_body(file):
+    with getExampleFile(f'{file}') as f:
+        latex_code = f.read()
+        pattern = r"\\begin{body}(.*)\\end{body}"
+        match = re.search(pattern, latex_code, re.DOTALL)
+        if match:
+            return match.group(1).strip()
         else:
             return None
 
@@ -48,13 +59,13 @@ content = extract_content("example")
 testFile = open("test.html", "a")
 
 
-
 def tag_search(tag):
     tagPattern = r"\\" + tag + "{(.*)}"
 
     tagMatches = re.findall(tagPattern, content)
     for a in tagMatches:
         testFile.write(f"<{tag}>{a}</{tag}>\n")
+
 
 def title_search(head_content):
     titlePattern = r"\\title{(.*)}"
@@ -65,7 +76,50 @@ def title_search(head_content):
     else:
         return None
 
-head_content = extract_head("example") # for head stuff
+
+head_content = extract_head("example")  # for head stuff
+
+
+def get_head():
+    _c = extract_head("example")
+
+    title_pattern = r"\\title{(.*)}"
+
+    return re.findall(title_pattern, _c, re.DOTALL)
+
+
+def get_body():
+    _c = extract_body("example")
+
+    pattern = r"\\.*{(.*)}"
+
+    return re.findall(pattern, _c)
+
+
+def get_tag():
+    _c = extract_body("example")
+
+    pattern = r"\\(\w+)"
+
+    return re.findall(pattern, _c)
+
+
+template = f"""
+   <html>
+    <head>
+        <title>{get_head()[0]}</title>
+    </head>
+        <body>
+"""
+
+for body, tag in zip(get_body(), get_tag()):
+    template += f"<{tag}>{body}</{tag}>"
+
+template += """
+        </body>
+   </html>
+   """
+
 
 def writeHead():
     testFile.write("<head>\n")
@@ -73,4 +127,11 @@ def writeHead():
         testFile.write(f"<title>{title_search(head_content)}</title>\n")
     testFile.write("</head>")
 
-writeHead()
+
+def writeFile():
+    with open('testFile.txt', 'w') as testFile:
+        testFile.write(template)
+    print("successfully")
+
+
+writeFile()
