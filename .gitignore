@@ -11,3 +11,4 @@ devenv.local.nix
 venv*
 .attach*
 .idea*
+*html
