@@ -12,3 +12,4 @@ venv*
 .attach*
 .idea*
 *html
+*png
