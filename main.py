@@ -129,7 +129,7 @@ def genFileName():
 def show_latex():
 
     fig = plt.figure(figsize=(3, 0.5))
-
+    plt.rcParams['text.usetex'] = true
     text = fig.text(
 
         x=0.5,

@@ -5,7 +5,7 @@
   env.GREET = "devenv";
 
   # https://devenv.sh/packages/
-  packages = [ pkgs.git pkgs.jetbrains.pycharm-community pkgs.python312Packages.pip];
+  packages = [ pkgs.git pkgs.jetbrains.pycharm-community pkgs.python312Packages.pip pkgs.texlive.combined.scheme-full];
 
   # https://devenv.sh/languages/
   # languages.rust.enable = true;
