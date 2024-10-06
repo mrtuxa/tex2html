@@ -69,7 +69,7 @@ def tag_search(tag):
 
     tagMatches = re.findall(tagPattern, content)
     for a in tagMatches:
-        testFile.write(f"<{tag}>{a}</{tag}>\n")
+        testFile.write(f"<{tag}>{a}</{tag}>")
 
 
 def title_search(head_content):
@@ -163,7 +163,7 @@ template = f"""
 """
 
 for body, tag in zip(get_body(), get_tag()):
-    template += f"<{tag}>{body}</{tag}>\n"
+    template += f"<{tag}>{body}</{tag}>"
 
 template += """
         </body>
@@ -172,9 +172,9 @@ template += """
 
 
 def writeHead():
-    testFile.write("<head>\n")
+    testFile.write("<head>")
     if title_search(head_content):
-        testFile.write(f"<title>{title_search(head_content)}</title>\n")
+        testFile.write(f"<title>{title_search(head_content)}</title>")
     testFile.write("</head>")
 
 
