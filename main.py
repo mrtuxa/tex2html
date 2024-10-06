@@ -1,5 +1,9 @@
+import random
 import re
+import string
+
 from bs4 import BeautifulSoup
+import matplotlib.pyplot as plt
 
 true = True
 
@@ -105,12 +109,57 @@ def get_tag():
     return re.findall(pattern, _c)
 
 
+def get_latex():
+    _c = extract_body("example")
+
+    pattern = r"\\LaTeX"
+
+    return re.sub(r'^(\\)', '', pattern)
+
+
+def genFileName():
+
+    letters_and_digits = string.ascii_letters + string.digits
+
+    result_str = ''.join(random.choice(letters_and_digits) for i in range(8))
+
+    return f"{result_str}.png"
+
+
+def show_latex():
+
+    fig = plt.figure(figsize=(3, 0.5))
+
+    text = fig.text(
+
+        x=0.5,
+
+        y=0.5,
+
+        s=get_latex(),
+
+        horizontalalignment="center",
+
+        verticalalignment="center",
+
+        fontsize=16,
+
+    )
+
+    file_path = genFileName()
+
+    fig.savefig(file_path)
+
+    return file_path
+
+
 template = f"""
    <html>
     <head>
         <title>{get_head()[0]}</title>
     </head>
         <body>
+        <img src={show_latex()} />
 """
 
 for body, tag in zip(get_body(), get_tag()):
